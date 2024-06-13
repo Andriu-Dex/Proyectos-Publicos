@@ -1,11 +1,14 @@
 body {
-    background-color: #e0f7fa;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-image: url('Fondos/Tamagochi-Interfaz.jpg');
+    background-size: cover; /* La imagen cubre toda la pantalla */
+    background-position: center; /* La imagen está centrada */
+    background-repeat: no-repeat; /* La imagen no se repite */
+    background-attachment: fixed; /* La imagen se fija en la pantalla al hacer scroll */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
+
 
 .container {
     background-color: #ffffff;
