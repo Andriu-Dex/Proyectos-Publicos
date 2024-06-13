@@ -78,7 +78,7 @@ class EstadoFeliz extends EstadoTamagotchi {
     }
 
     getImage() {
-        return '/Gato/feliz.png'; // Cambia 'feliz.png' a tu imagen personalizada
+        return 'Gato/feliz.png'; // Cambia 'feliz.png' a tu imagen personalizada
     }
 }
 
@@ -100,7 +100,7 @@ class EstadoLleno extends EstadoTamagotchi {
     }
 
     getImage() {
-        return '/Gato/gordo.png'; // Cambia 'lleno.png' a tu imagen personalizada
+        return 'Gato/gordo.png'; // Cambia 'gordo.png' a tu imagen personalizada
     }
 }
 
@@ -122,7 +122,7 @@ class EstadoCansado extends EstadoTamagotchi {
     }
 
     getImage() {
-        return '/Gato/cansado.png'; // Cambia 'cansado.png' a tu imagen personalizada
+        return 'Gato/cansado.png'; // Cambia 'cansado.png' a tu imagen personalizada
     }
 }
 
@@ -144,7 +144,7 @@ class EstadoDurmiendo extends EstadoTamagotchi {
     }
 
     getImage() {
-        return '/Gato/con_sueño.png'; // Cambia 'durmiendo.png' a tu imagen personalizada
+        return 'Gato/con_sueño.png'; // Cambia 'con_sueño.png' a tu imagen personalizada
     }
 }
 
