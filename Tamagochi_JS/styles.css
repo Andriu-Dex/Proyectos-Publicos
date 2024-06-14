@@ -1,0 +1,74 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: url('Fondos/videojuegos.jpeg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+#tamagotchi {
+    text-align: center;
+    position: relative;
+}
+
+#logo {
+    width: 450px; /* Ajusta el tamaño del logo según sea necesario */
+    margin-bottom: 0; /* Espacio entre el logo y el marco */
+    margin-top: -90px; /* Ajusta la separación entre el logo y el marco */
+}
+
+#contenedor-marco {
+    position: relative;
+    width: 1900px; /* Ajusta el ancho del marco */
+    height: 900px; /* Ajusta la altura del marco */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -200px; /* Ajusta la separación entre el logo y el marco */
+}
+
+#fondo-marco {
+    width: 100%;
+    height: 100%;
+}
+
+#estado {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    width: 100%;
+    text-align: center;
+}
+
+#imagen-estado {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+#acciones {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+#acciones button {
+    margin: 10px;
+}
+
+#inspiracion {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+}

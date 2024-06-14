@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Tamagotchi</title>
+    <title>Tamagotchi</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Mi Tamagotchi</h1>
-        <div id="tamagotchi">
-            <img id="tamagotchiImage" src="Gato/feliz.png" alt="Tamagotchi"><!-- Cambia 'Gato/feliz.png' a tu imagen personalizada -->
-            <div id="status">Feliz</div><!-- Este texto cambiará dinámicamente -->
+    <div id="tamagotchi">
+        <img id="logo" src="/Tamagochi_JS/Fondos/Logo_tamagochi.png" alt="Logo Tamagochi">
+        <div id="contenedor-marco">
+            <img id="fondo-marco" src="Fondos/MarcoParaBotones.png" alt="Marco de la mascota">
+            <div id="estado">
+                <img id="imagen-estado" src="Gato/feliz.png" alt="Estado del Tamagotchi">
+                <p id="animo">Ánimo: Feliz</p>
+                <p id="energia">Energía: 100</p>
+                <p id="hambre">Hambre: 0</p>
+            </div>
+            <div id="acciones">
+                <button id="alimentar">Alimentar</button>
+                <button id="jugar">Jugar</button>
+                <button id="descansar">Descansar</button>
+            </div>
+            <div id="inspiracion">
+                <p id="frase">Mantén una actitud positiva y feliz.</p>
+            </div>
         </div>
-        <div class="buttons">
-            <button id="feedButton">Alimentar</button>
-            <button id="playButton">Jugar</button>
-            <button id="sleepButton">Dormir</button>
-        </div>
-        <div id="inspiration"></div><!-- Este div mostrará las frases de inspiración -->
     </div>
-    <script src="tamagotchi.js"></script><!-- Asegúrate de que la ruta a tamagotchi.js sea correcta -->
+    <script src="tamagotchi.js"></script>
 </body>
 </html>

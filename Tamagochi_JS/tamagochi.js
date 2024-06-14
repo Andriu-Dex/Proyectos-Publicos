@@ -1,50 +1,80 @@
+// tamagotchi.js
+
 class Tamagotchi {
     constructor() {
-        this.state = new EstadoFeliz(this);
-        this.inspiracionFrases = [
-            "Sigue adelante!",
-            "¡Tú puedes!",
-            "Cree en ti mismo!",
-            "¡Mantente positivo!",
-            "¡Nunca te rindas!"
-        ]; // Cambia estas frases por tus propias frases de inspiración
-        this.init();
+        this.animo = 'Feliz';
+        this.energia = 100;
+        this.hambre = 0;
+        this.estados = {
+            feliz: new EstadoFeliz(this),
+            cansado: new EstadoCansado(this),
+            hambriento: new EstadoHambriento(this),
+        };
+        this.estadoActual = this.estados.feliz;
+        this.frases = [
+            "Mantén una actitud positiva y feliz.",
+            "Trabaja duro y no pierdas la esperanza.",
+            "Sé receptivo a las críticas y sigue aprendiendo.",
+            "Rodéate de personas felices, cálidas y genuinas."
+        ];
+        this.iniciar();
     }
 
-    init() {
-        document.getElementById('feedButton').addEventListener('click', () => this.alimentar());
-        document.getElementById('playButton').addEventListener('click', () => this.jugar());
-        document.getElementById('sleepButton').addEventListener('click', () => this.dormir());
-        this.generarInspiracion();
+    iniciar() {
+        this.actualizarEstado();
+        this.configurarEventos();
+        this.iniciarInspiracion();
     }
 
-    setState(state) {
-        this.state = state;
-        this.actualizarUI();
+    actualizarEstado() {
+        document.getElementById('animo').innerText = `Ánimo: ${this.animo}`;
+        document.getElementById('energia').innerText = `Energía: ${this.energia}`;
+        document.getElementById('hambre').innerText = `Hambre: ${this.hambre}`;
+        this.actualizarImagen();  // Llamar a la función para actualizar la imagen
+    }
+
+    configurarEventos() {
+        document.getElementById('alimentar').addEventListener('click', () => this.alimentar());
+        document.getElementById('jugar').addEventListener('click', () => this.jugar());
+        document.getElementById('descansar').addEventListener('click', () => this.descansar());
+    }
+
+    iniciarInspiracion() {
+        setInterval(() => {
+            const fraseAleatoria = this.frases[Math.floor(Math.random() * this.frases.length)];
+            document.getElementById('frase').innerText = fraseAleatoria;
+        }, 10000); // Cambiar frase cada 10 segundos
     }
 
     alimentar() {
-        this.state.alimentar();
+        this.estadoActual.alimentar();
+        this.actualizarEstado();
     }
 
     jugar() {
-        this.state.jugar();
+        this.estadoActual.jugar();
+        this.actualizarEstado();
     }
 
-    dormir() {
-        this.state.dormir();
+    descansar() {
+        this.estadoActual.descansar();
+        this.actualizarEstado();
     }
 
-    actualizarUI() {
-        document.getElementById('status').innerText = this.state.getStatus();
-        document.getElementById('tamagotchiImage').src = this.state.getImage();
+    cambiarEstado(nuevoEstado) {
+        this.estadoActual = nuevoEstado;
     }
 
-    generarInspiracion() {
-        setInterval(() => {
-            const frase = this.inspiracionFrases[Math.floor(Math.random() * this.inspiracionFrases.length)];
-            document.getElementById('inspiration').innerText = frase;
-        }, 10000); // Cambia este valor para ajustar la frecuencia de las frases de inspiración
+    actualizarImagen() {
+        // Cambiar la fuente de la imagen según el estado de ánimo
+        const imagen = document.getElementById('imagen-estado');
+        if (this.animo === 'Feliz') {
+            imagen.src = 'Gato/feliz.png';  // Ruta del gif para el estado feliz
+        } else if (this.animo === 'Cansado') {
+            imagen.src = 'gifs/tired.gif';  // Ruta del gif para el estado cansado
+        } else if (this.animo === 'Hambriento') {
+            imagen.src = 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXJhamVxMTYwczU2ZTQ4aW81cnpidWxqMGs5YWo0anRrZ2g5OGJtaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/EExJM3NifsBwjJukuF/giphy.webp';  // Ruta del gif para el estado hambriento
+        }
     }
 }
 
@@ -55,100 +85,97 @@ class EstadoTamagotchi {
 
     alimentar() {}
     jugar() {}
-    dormir() {}
-    getStatus() {}
-    getImage() {}
+    descansar() {}
 }
 
 class EstadoFeliz extends EstadoTamagotchi {
     alimentar() {
-        this.tamagotchi.setState(new EstadoLleno(this.tamagotchi));
+        this.tamagotchi.hambre -= 10;
+        this.tamagotchi.energia += 10;
+        if (this.tamagotchi.hambre <= 0) {
+            this.tamagotchi.hambre = 0;
+            this.tamagotchi.cambiarEstado(this.tamagotchi.estados.cansado);
+            this.tamagotchi.animo = 'Cansado';
+        }
     }
 
     jugar() {
-        this.tamagotchi.setState(new EstadoCansado(this.tamagotchi));
+        this.tamagotchi.energia -= 20;
+        if (this.tamagotchi.energia <= 0) {
+            this.tamagotchi.energia = 0;
+            this.tamagotchi.cambiarEstado(this.tamagotchi.estados.cansado);
+            this.tamagotchi.animo = 'Cansado';
+        }
     }
 
-    dormir() {
-        this.tamagotchi.setState(new EstadoDurmiendo(this.tamagotchi));
-    }
-
-    getStatus() {
-        return 'Feliz';
-    }
-
-    getImage() {
-        return 'Gato/feliz.png'; // Cambia 'feliz.png' a tu imagen personalizada
-    }
-}
-
-class EstadoLleno extends EstadoTamagotchi {
-    alimentar() {
-        console.log('¡El Tamagotchi ya está lleno!');
-    }
-
-    jugar() {
-        this.tamagotchi.setState(new EstadoCansado(this.tamagotchi));
-    }
-
-    dormir() {
-        this.tamagotchi.setState(new EstadoDurmiendo(this.tamagotchi));
-    }
-
-    getStatus() {
-        return 'Lleno';
-    }
-
-    getImage() {
-        return 'Gato/gordo.png'; // Cambia 'gordo.png' a tu imagen personalizada
+    descansar() {
+        this.tamagotchi.energia += 20;
+        if (this.tamagotchi.energia >= 100) {
+            this.tamagotchi.energia = 100;
+        }
     }
 }
 
 class EstadoCansado extends EstadoTamagotchi {
     alimentar() {
-        this.tamagotchi.setState(new EstadoLleno(this.tamagotchi));
+        this.tamagotchi.hambre += 10;
+        if (this.tamagotchi.hambre >= 100) {
+            this.tamagotchi.hambre = 100;
+            this.tamagotchi.cambiarEstado(this.tamagotchi.estados.hambriento);
+            this.tamagotchi.animo = 'Hambriento';
+        }
     }
 
     jugar() {
-        console.log('¡El Tamagotchi está demasiado cansado para jugar!');
+        this.tamagotchi.energia -= 10;
+        if (this.tamagotchi.energia <= 0) {
+            this.tamagotchi.energia = 0;
+        }
     }
 
-    dormir() {
-        this.tamagotchi.setState(new EstadoDurmiendo(this.tamagotchi));
-    }
-
-    getStatus() {
-        return 'Cansado';
-    }
-
-    getImage() {
-        return 'Gato/cansado.png'; // Cambia 'cansado.png' a tu imagen personalizada
+    descansar() {
+        this.tamagotchi.energia += 30;
+        this.tamagotchi.hambre += 10;
+        if (this.tamagotchi.energia >= 100) {
+            this.tamagotchi.energia = 100;
+            this.tamagotchi.cambiarEstado(this.tamagotchi.estados.feliz);
+            this.tamagotchi.animo = 'Feliz';
+        }
+        if (this.tamagotchi.hambre >= 100) {
+            this.tamagotchi.hambre = 100;
+            this.tamagotchi.cambiarEstado(this.tamagotchi.estados.hambriento);
+            this.tamagotchi.animo = 'Hambriento';
+        }
     }
 }
 
-class EstadoDurmiendo extends EstadoTamagotchi {
+class EstadoHambriento extends EstadoTamagotchi {
     alimentar() {
-        console.log('¡El Tamagotchi está durmiendo!');
+        this.tamagotchi.hambre -= 20;
+        if (this.tamagotchi.hambre <= 0) {
+            this.tamagotchi.hambre = 0;
+            this.tamagotchi.cambiarEstado(this.tamagotchi.estados.feliz);
+            this.tamagotchi.animo = 'Feliz';
+        }
     }
 
     jugar() {
-        console.log('¡El Tamagotchi está durmiendo!');
+        this.tamagotchi.energia -= 10;
+        if (this.tamagotchi.energia <= 0) {
+            this.tamagotchi.energia = 0;
+            this.tamagotchi.cambiarEstado(this.tamagotchi.estados.cansado);
+            this.tamagotchi.animo = 'Cansado';
+        }
     }
 
-    dormir() {
-        console.log('¡El Tamagotchi ya está durmiendo!');
-    }
-
-    getStatus() {
-        return 'Durmiendo';
-    }
-
-    getImage() {
-        return 'Gato/con_sueño.png'; // Cambia 'con_sueño.png' a tu imagen personalizada
+    descansar() {
+        this.tamagotchi.energia += 10;
+        if (this.tamagotchi.energia >= 100) {
+            this.tamagotchi.energia = 100;
+        }
     }
 }
 
-// Inicializa Tamagotchi
 document.addEventListener('DOMContentLoaded', () => {
-    new Tamagotchi();
+    const miTamagotchi = new Tamagotchi();
 });
