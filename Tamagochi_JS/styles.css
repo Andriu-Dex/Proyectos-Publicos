@@ -16,8 +16,9 @@ body {
     border-radius: 20px;
     text-align: center;
     width: 50%;
-    overflow: hidden; /* Asegura que el contenido adicional no sobresalga */
-    border: 5px solid black; /* Agregar el borde aquí */
+    overflow: hidden; 
+    border: 5px solid black; 
+    font-size: 24px;
 }
 
 #pantalla-bienvenida::before {
@@ -30,7 +31,7 @@ body {
     background-image: url('https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2253470/capsule_616x353.jpg?t=1708505018');
     background-size: cover;
     background-position: center;
-    filter: blur(7px); /* Aplicar el desenfoque aquí */
+    filter: blur(7px);
     z-index: -1; /* Colocar detrás del contenido */
 }
 
@@ -94,8 +95,8 @@ body {
 }
 
 #imagen-tamagotchi {
-    width: 200px; /* Aumentar tamaño de la mascota */
-    height: 200px;
+    width: 300px; /* Aumentar tamaño de la mascota */
+    height: 300px;
     position: absolute;
     z-index: 3;
 }
