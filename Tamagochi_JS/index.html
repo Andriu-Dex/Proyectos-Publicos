@@ -7,26 +7,33 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="tamagotchi">
-        <img id="logo" src="/Tamagochi_JS/Fondos/Logo_tamagochi.png" alt="Logo Tamagochi">
-        <div id="contenedor-marco">
-            <img id="fondo-marco" src="Fondos/MarcoParaBotones.png" alt="Marco de la mascota">
-            <div id="estado">
-                <img id="imagen-estado" src="Gato/feliz.png" alt="Estado del Tamagotchi">
-                <p id="animo">Ánimo: Feliz</p>
-                <p id="energia">Energía: 100</p>
-                <p id="hambre">Hambre: 0</p>
+    <div id="pantalla-bienvenida" class="activo">
+        <h1>Bienvenidos a Tamagotchi</h1>
+        <label for="nombre-mascota">Ingrese el nombre de su mascota:</label>
+        <input type="text" id="nombre-mascota" name="nombre-mascota">
+        <button id="crear-mascota">Crear</button>
+    </div>
+
+    <div id="pantalla-tamagotchi">
+        <img id="logo" src="Fondos/Logo_tamagochi.png" alt="Logo Tamagotchi">
+        <div id="tamagotchi">
+            <div id="contenedor-marco">
+                <div id="nombre-mascota-display"></div>
+                <img id="imagen-escenario" src="Escenarios/sala.png" alt="Escenario">
+                <img id="imagen-tamagotchi" src="Gato/feliz.png" alt="Tamagotchi">
             </div>
             <div id="acciones">
-                <button id="alimentar">Alimentar</button>
-                <button id="jugar">Jugar</button>
-                <button id="descansar">Descansar</button>
+                <!-- Rutas de las imágenes de los botones -->
+                <img id="izquierda" src="Fondos/FelchaIzq.png" alt="Izquierda"> <!-- Cambia esta ruta -->
+                <img id="interaccion" src="Fondos/Interactuar.png" alt="Interactuar"> <!-- Cambia esta ruta -->
+                <img id="derecha" src="Fondos/FelchaDer.png" alt="Derecha"> <!-- Cambia esta ruta -->
             </div>
             <div id="inspiracion">
-                <p id="frase">Mantén una actitud positiva y feliz.</p>
+                <p id="mensaje"></p>
             </div>
         </div>
     </div>
+
     <script src="tamagotchi.js"></script>
 </body>
 </html>
