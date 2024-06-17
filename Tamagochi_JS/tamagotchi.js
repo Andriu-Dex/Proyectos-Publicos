@@ -15,6 +15,7 @@ document.getElementById('crear-mascota').addEventListener('click', () => {
 
 let estadoAnimo = 'feliz';
 let escenarioActual = 0;
+let juegoTerminado = false;
 
 const estados = {
     hambre: 0,
@@ -29,22 +30,23 @@ const escenarios = [
     'Escenarios/gym.png',
     'Escenarios/dormitorio.png',
     'Escenarios/baño.png',
-    'Escenarios/cuarto_estudio.png'
+    'Escenarios/cuarto_estudio.png',
+    'Escenarios/tumba.png' // Agregamos el escenario de la tumba
 ];
 
 const interacciones = {
-    sala: 'Gato/feliz.png', 
-    comedor: 'Gato/comiendo.png', 
+    sala: 'Gato/feliz.gif', 
+    comedor: 'Gato/comiendo.gif', 
     gym: 'Gato/ejercicio2.gif',
     dormitorio: 'Gato/durmiendo.gif', 
     baño: 'Gato/bañando.gif', 
     cuarto_estudio: 'Gato/estudiando.gif', 
-    tumba: 'Gato/muerto.gif'
+    tumba: 'Gato/muerto.gif' // Imagen de la mascota muerta
 };
 
 // Patrón de Estado (State)
 class Estado {
-    cambiarEstado(tamagotchi, animo) {
+    cambiarEstado(tamagotchi) {
         throw "Este método debe ser sobrescrito";
     }
 }
@@ -167,10 +169,12 @@ const estrategias = {
 };
 
 function cambiarEscenario(direccion) {
+    if (juegoTerminado) return; // No cambiar escenario si el juego ha terminado
+
     if (direccion === 'izquierda') {
-        escenarioActual = (escenarioActual === 0) ? escenarios.length - 1 : escenarioActual - 1;
+        escenarioActual = (escenarioActual === 0) ? escenarios.length - 2 : escenarioActual - 1;
     } else if (direccion === 'derecha') {
-        escenarioActual = (escenarioActual === escenarios.length - 1) ? 0 : escenarioActual + 1;
+        escenarioActual = (escenarioActual === escenarios.length - 2) ? 0 : escenarioActual + 1;
     }
     document.getElementById('imagen-escenario').src = escenarios[escenarioActual];
     actualizarEstadoAnimo();
@@ -185,9 +189,10 @@ document.getElementById('derecha').addEventListener('click', () => {
 });
 
 document.getElementById('interaccion').addEventListener('click', () => {
+    if (juegoTerminado) return; // No interactuar si el juego ha terminado
+
     const escenario = escenarios[escenarioActual].split('/').pop().split('.')[0];
     estrategias[escenario].interactuar(tamagotchi);
-    estadoAnimo = escenario;
     actualizarEstadoAnimo();
 });
 
@@ -195,33 +200,57 @@ function actualizarEstadoAnimo() {
     estadoAnimoDisplay.innerText = `Estado: Hambre ${estados.hambre}, Aburrimiento ${estados.aburrimiento}, Cansancio ${estados.cansancio}, Suciedad ${estados.suciedad}`;
 }
 
-function verificarEstados() {
+function verificarMuerte() {
     for (const [key, value] of Object.entries(estados)) {
-        if (value >= 4) {
+        if (value >= 10) {
             const estado = new Muerto();
             estado.cambiarEstado(tamagotchi);
             estadoAnimo = 'muerto';
+            juegoTerminado = true;
+            mostrarFinDelJuego();
+            cambiarEscenario('tumba');
             actualizarEstadoAnimo();
             return;
         }
     }
 }
 
-function incrementarEstados() {
-    estados.hambre++;
-    estados.aburrimiento++;
-    estados.cansancio++;
-    estados.suciedad++;
-    actualizarEstadoAnimo();
-    verificarEstados();
+function incrementarEstado(key, intervalo) {
+    return setInterval(() => {
+        if (!juegoTerminado) {
+            estados[key]++;
+            actualizarEstadoAnimo();
+            verificarMuerte();
+        }
+    }, intervalo);
 }
 
 function iniciarEstados() {
-    setInterval(incrementarEstados, 5000); // Incrementar estados cada 5 segundos
+    incrementarEstado('hambre', 10000); // Incrementa hambre cada 10 segundos
+    incrementarEstado('aburrimiento', 15000); // Incrementa aburrimiento cada 15 segundos
+    incrementarEstado('cansancio', 20000); // Incrementa cansancio cada 20 segundos
+    incrementarEstado('suciedad', 25000); // Incrementa suciedad cada 25 segundos
+}
+
+function mostrarFinDelJuego() {
+    const mensajeFin = document.createElement('div');
+    mensajeFin.id = 'mensaje-fin';
+    mensajeFin.innerText = 'Fin del juego';
+    mensajeFin.style.position = 'absolute';
+    mensajeFin.style.top = '50%';
+    mensajeFin.style.left = '50%';
+    mensajeFin.style.transform = 'translate(-50%, -50%)';
+    mensajeFin.style.fontSize = '48px';
+    mensajeFin.style.fontWeight = 'bold';
+    mensajeFin.style.color = 'red';
+    mensajeFin.style.zIndex = '5';
+    document.body.appendChild(mensajeFin);
 }
 
 setInterval(() => {
-    const frases = ["¡Sigue adelante!", "¡Eres capaz de lograr grandes cosas!", "¡No te rindas!", "¡Vamos, tú puedes!"];
-    const frase = frases[Math.floor(Math.random() * frases.length)];
-    document.getElementById('mensaje').innerText = frase;
+    if (!juegoTerminado) {
+        const frases = ["¡Sigue adelante!", "¡Eres capaz de lograr grandes cosas!", "¡No te rindas!", "¡Vamos, tú puedes!"];
+        const frase = frases[Math.floor(Math.random() * frases.length)];
+        document.getElementById('mensaje').innerText = frase;
+    }
 }, 300000); // 300000 ms = 5 minutos
