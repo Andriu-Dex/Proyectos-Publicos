@@ -1,50 +1,3 @@
-document.getElementById('crear-mascota').addEventListener('click', () => {
-    const nombre = document.getElementById('nombre-mascota').value;
-    if (nombre) {
-        document.getElementById('pantalla-bienvenida').classList.remove('activo');
-        document.getElementById('pantalla-bienvenida').style.display = 'none';
-        document.getElementById('pantalla-tamagotchi').classList.add('activo');
-        document.getElementById('pantalla-tamagotchi').style.display = 'block';
-        document.getElementById('nombre-mascota-display').innerText = nombre;
-        cambiarEscenario('sala');
-        iniciarEstados();
-    } else {
-        alert('Por favor, ingrese un nombre para su mascota.');
-    }
-});
-
-let estadoAnimo = 'feliz';
-let escenarioActual = 0;
-let juegoTerminado = false;
-
-const estados = {
-    hambre: 0,
-    aburrimiento: 0,
-    cansancio: 0,
-    suciedad: 0
-};
-
-const escenarios = [
-    'Escenarios/sala.png',
-    'Escenarios/comedor.png',
-    'Escenarios/gym.png',
-    'Escenarios/dormitorio.png',
-    'Escenarios/baño.png',
-    'Escenarios/cuarto_estudio.png',
-    'Escenarios/tumba.png' // Agregamos el escenario de la tumba
-];
-
-const interacciones = {
-    sala: 'Gato/feliz.gif', 
-    comedor: 'Gato/comiendo.gif', 
-    gym: 'Gato/ejercicio2.gif',
-    dormitorio: 'Gato/durmiendo.gif', 
-    baño: 'Gato/bañando.gif', 
-    cuarto_estudio: 'Gato/estudiando.gif', 
-    tumba: 'Gato/muerto.gif' // Imagen de la mascota muerta
-};
-
-// Patrón de Estado (State)
 class Estado {
     cambiarEstado(tamagotchi) {
         throw "Este método debe ser sobrescrito";
@@ -93,7 +46,6 @@ class Muerto extends Estado {
     }
 }
 
-// Patrón de Estrategia (Strategy)
 class Estrategia {
     interactuar(tamagotchi) {
         throw "Este método debe ser sobrescrito";
@@ -168,8 +120,54 @@ const estrategias = {
     cuarto_estudio: new InteraccionCuartoEstudio()
 };
 
+let estadoAnimo = 'feliz';
+let escenarioActual = 0;
+let juegoTerminado = false;
+
+const estados = {
+    hambre: 0,
+    aburrimiento: 0,
+    cansancio: 0,
+    suciedad: 0
+};
+
+const escenarios = [
+    'Escenarios/sala.png',
+    'Escenarios/comedor.png',
+    'Escenarios/gym.png',
+    'Escenarios/dormitorio.png',
+    'Escenarios/baño.png',
+    'Escenarios/cuarto_estudio.png',
+    'Escenarios/tumba.png'
+];
+
+const interacciones = {
+    sala: 'Gato/feliz.gif',
+    comedor: 'Gato/comiendo.gif',
+    gym: 'Gato/ejercicio2.gif',
+    dormitorio: 'Gato/durmiendo.gif',
+    baño: 'Gato/bañando.gif',
+    cuarto_estudio: 'Gato/estudiando.gif',
+    tumba: 'Gato/muerto.gif'
+};
+
+document.getElementById('crear-mascota').addEventListener('click', () => {
+    const nombre = document.getElementById('nombre-mascota').value;
+    if (nombre) {
+        document.getElementById('pantalla-bienvenida').classList.remove('activo');
+        document.getElementById('pantalla-bienvenida').style.display = 'none';
+        document.getElementById('pantalla-tamagotchi').classList.add('activo');
+        document.getElementById('pantalla-tamagotchi').style.display = 'block';
+        document.getElementById('nombre-mascota-display').innerText = nombre;
+        cambiarEscenario('sala');
+        iniciarEstados();
+    } else {
+        alert('Por favor, ingrese un nombre para su mascota.');
+    }
+});
+
 function cambiarEscenario(direccion) {
-    if (juegoTerminado) return; // No cambiar escenario si el juego ha terminado
+    if (juegoTerminado) return;
 
     if (direccion === 'izquierda') {
         escenarioActual = (escenarioActual === 0) ? escenarios.length - 2 : escenarioActual - 1;
@@ -189,7 +187,7 @@ document.getElementById('derecha').addEventListener('click', () => {
 });
 
 document.getElementById('interaccion').addEventListener('click', () => {
-    if (juegoTerminado) return; // No interactuar si el juego ha terminado
+    if (juegoTerminado) return;
 
     const escenario = escenarios[escenarioActual].split('/').pop().split('.')[0];
     estrategias[escenario].interactuar(tamagotchi);
@@ -226,10 +224,10 @@ function incrementarEstado(key, intervalo) {
 }
 
 function iniciarEstados() {
-    incrementarEstado('hambre', 10000); // Incrementa hambre cada 10 segundos
-    incrementarEstado('aburrimiento', 15000); // Incrementa aburrimiento cada 15 segundos
-    incrementarEstado('cansancio', 20000); // Incrementa cansancio cada 20 segundos
-    incrementarEstado('suciedad', 25000); // Incrementa suciedad cada 25 segundos
+    incrementarEstado('hambre', 10000);
+    incrementarEstado('aburrimiento', 15000);
+    incrementarEstado('cansancio', 20000);
+    incrementarEstado('suciedad', 25000);
 }
 
 function mostrarFinDelJuego() {
@@ -253,4 +251,4 @@ setInterval(() => {
         const frase = frases[Math.floor(Math.random() * frases.length)];
         document.getElementById('mensaje').innerText = frase;
     }
-}, 300000); // 300000 ms = 5 minutos
+}, 300000);

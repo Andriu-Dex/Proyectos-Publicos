@@ -16,8 +16,8 @@ body {
     border-radius: 20px;
     text-align: center;
     width: 50%;
-    overflow: hidden; 
-    border: 5px solid black; 
+    overflow: hidden;
+    border: 5px solid black;
     font-size: 24px;
 }
 
@@ -32,7 +32,7 @@ body {
     background-size: cover;
     background-position: center;
     filter: blur(7px);
-    z-index: -1; /* Colocar detrás del contenido */
+    z-index: -1;
 }
 
 .activo {
@@ -80,9 +80,9 @@ body {
     top: 10px;
     width: 100%;
     text-align: center;
-    font-size: 38px; 
-    font-family: 'Times New Roman', Times, serif; 
-    font-weight: bold; 
+    font-size: 38px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
     z-index: 3;
 }
 
@@ -95,7 +95,7 @@ body {
 }
 
 #imagen-tamagotchi {
-    width: 300px; /* Aumentar tamaño de la mascota */
+    width: 300px;
     height: 300px;
     position: absolute;
     z-index: 3;
@@ -103,7 +103,7 @@ body {
 
 #acciones {
     position: absolute;
-    bottom: -80px; /* Mover botones más abajo */
+    bottom: -80px;
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -111,7 +111,7 @@ body {
 }
 
 #acciones img {
-    width: 80px; /* Aumentar tamaño de los botones */
+    width: 80px;
     height: 80px;
     cursor: pointer;
 }
