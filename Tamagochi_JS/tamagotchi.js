@@ -138,7 +138,7 @@ const escenarios = [
     'Escenarios/dormitorio.png',
     'Escenarios/baño.png',
     'Escenarios/cuarto_estudio.png',
-    'Escenarios/tumba.png'
+    'Escenarios/tumba.png' 
 ];
 
 const interacciones = {
@@ -148,9 +148,10 @@ const interacciones = {
     dormitorio: 'Gato/durmiendo.gif',
     baño: 'Gato/bañando.gif',
     cuarto_estudio: 'Gato/estudiando.gif',
-    tumba: 'Gato/muerto.gif'
+    tumba: 'Gato/muerto.gif' 
 };
 
+//Botón crear mascota
 document.getElementById('crear-mascota').addEventListener('click', () => {
     const nombre = document.getElementById('nombre-mascota').value;
     if (nombre) {
@@ -178,6 +179,13 @@ function cambiarEscenario(direccion) {
     actualizarEstadoAnimo();
 }
 
+function mostrarTumba() {
+    document.getElementById('imagen-escenario').src = 'Escenarios/tumba.png';
+    const estado = new Muerto();
+    estado.cambiarEstado(tamagotchi);
+    actualizarEstadoAnimo();
+}
+
 document.getElementById('izquierda').addEventListener('click', () => {
     cambiarEscenario('izquierda');
 });
@@ -201,13 +209,9 @@ function actualizarEstadoAnimo() {
 function verificarMuerte() {
     for (const [key, value] of Object.entries(estados)) {
         if (value >= 10) {
-            const estado = new Muerto();
-            estado.cambiarEstado(tamagotchi);
-            estadoAnimo = 'muerto';
             juegoTerminado = true;
             mostrarFinDelJuego();
-            cambiarEscenario('tumba');
-            actualizarEstadoAnimo();
+            mostrarTumba();
             return;
         }
     }
@@ -251,4 +255,4 @@ setInterval(() => {
         const frase = frases[Math.floor(Math.random() * frases.length)];
         document.getElementById('mensaje').innerText = frase;
     }
-}, 300000);
+}, 60000); // 60000 ms = 1 minuto
